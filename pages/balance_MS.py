@@ -151,14 +151,8 @@ def app():
                 ML = y
             else:
                 ML = x
-
-            # Pre-processing data: AP and ML channels were detrended and normalized to gravity acceleration
-            if np.max(x) > 9 or np.max(y) > 9:
-                AP = signal.detrend(AP/9.81)
-                ML = signal.detrend(ML/9.81)
-            else:
-                AP = signal.detrend(AP)
-                ML = signal.detrend(ML)
+            AP = signal.detrend(AP)
+            ML = signal.detrend(ML)
 
             # Pre-processing data: interpolating to 100 Hz
             interpf = scipy.interpolate.interp1d(time, AP)
