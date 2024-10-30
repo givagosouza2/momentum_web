@@ -111,7 +111,7 @@ def app():
 
             # Filtering norm for acceleration
             norm_waveform_gyro = butterworth_filter(
-                norm_waveform_gyro, 4, 100, order=2, btype='low')
+                norm_waveform_gyro, 2.5, 100, order=2, btype='low')
 
             # Creating controls to interacts with the plots
             with t1:
