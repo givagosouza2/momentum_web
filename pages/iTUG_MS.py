@@ -120,9 +120,9 @@ def app():
                     '<h3 style="text-align: left; color: blue;">Ajustar as baselines</h3>', unsafe_allow_html=True)
                 length = len(norm_waveform_gyro)
                 slider_baseline1 = st.number_input(
-                    "Selecione o início do baseline do ONSET", min_value=1, max_value=length, step=1, value=50)
+                    "Selecione o início do baseline do ONSET", min_value=1, max_value=length, step=1, value=200)
                 slider_baseline2 = st.number_input(
-                    "Selecione o final do baseline do ONSET", min_value=1, max_value=length, value=100, step=1)
+                    "Selecione o final do baseline do ONSET", min_value=1, max_value=length, value=350, step=1)
                 slider_baseline3 = st.number_input(
                     "Selecione o início do baseline do OFFSET", min_value=1, max_value=length, value=length-150, step=1)
                 slider_baseline4 = st.number_input(
