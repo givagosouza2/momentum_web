@@ -72,7 +72,7 @@ def app():
 
             # Filtering acceleration data norm
             norm_waveform = butterworth_filter(
-                norm_waveform, 5, 100, order=2, btype='low')
+                norm_waveform, 4, 100, order=2, btype='low')
 
             uploaded_gyro_iTUG = st.file_uploader(
                 "Carregue o arquivo de texto do giroscópio", type=["txt"],)
@@ -111,7 +111,7 @@ def app():
 
             # Filtering norm for acceleration
             norm_waveform_gyro = butterworth_filter(
-                norm_waveform_gyro, 5, 100, order=2, btype='low')
+                norm_waveform_gyro, 4, 100, order=2, btype='low')
 
             # Creating controls to interacts with the plots
             with t1:
