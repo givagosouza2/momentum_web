@@ -30,7 +30,7 @@ class MultiApp:
                 options=["Home", "Equilíbrio", "iTUG", "Tremor de mão",
                          "Finger tapping test", "Posição articular","Análise da voz", "Atualizações"],
                 icons=["house-fill", "arrows-fullscreen", "arrow-bar-right",
-                       "hand-index-thumb", "hand-index", "arm","soundwave", "info-circle-fill"],
+                       "hand-index-thumb", "hand-index", "💪","soundwave", "info-circle-fill"],
                 default_index=0,
                 menu_icon='stars',
                 styles={
