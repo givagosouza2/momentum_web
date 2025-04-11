@@ -5,5 +5,5 @@ scipy
 pandas
 numpy
 matplotlib
-math
+
 
