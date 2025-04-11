@@ -26,8 +26,7 @@ def app():
             x = df.iloc[:, 1]
             y = df.iloc[:,2]
             z = df.iloc[:,3]
-            st.warning('1', icon="⚠️")
-    
+        
             # Pre-processing data: interpolating to 100 Hz
             #interpf = scipy.interpolate.interp1d(tempo, x)
             #t_ = np.arange(
@@ -50,7 +49,7 @@ def app():
             # Set filter parameters
             cutoff_frequency = 40  # Cutoff frequency in Hz
             sample_rate = 100.0  # Sample rate in Hz
-            st.warning('2', icon="⚠️")
+            
             
             x_vf = butter_lowpass_filter(
                 x, cutoff_frequency, sample_rate, order=4)
@@ -59,7 +58,6 @@ def app():
             z_vf = butter_lowpass_filter(
                 z, cutoff_frequency, sample_rate, order=4)
             
-            st.warning('3', icon="⚠️")
             accelAngleX = np.arctan(y_vf/np.sqrt(x_vf**2+z_vf**2)) * 180/math.pi
             accelAngleY = np.arctan(x_vf/np.sqrt(y_vf**2+z_vf**2)) * 180/math.pi
             accelAngleZ = np.arctan(z_vf/np.sqrt(x_vf**2+y_vf**2)) * 180/math.pi
@@ -138,20 +136,5 @@ def app():
             st.markdown('Média da extensão de 0 graus = ' +
                         str(np.mean(extensao_90[0:3])))
     
-            output_file = "output.txt"
-    
-            # Abrir o arquivo para escrita
-            with open(output_file, "w") as file:
-                file.write(str(flexao_90[1]) + "\t" + str(extensao_90[0]) + "\n")
-                file.write(str(flexao_90[2]) + "\t" + str(extensao_90[1]) + "\n")
-                file.write(str(flexao_90[3]) + "\t" + str(extensao_90[2]) + "\n")
-                file.write(str(flexao_90[4]) + "\t" + str(extensao_90[3]))
-    
-            with open(output_file, "r") as file:
-                file_contents = file.read()
-    
-            # Usar st.download_button para baixar o arquivo
-            st.download_button("Baixar resultados - Equilíbrio",
-                               data=file_contents, key='download_results')
-
+            
     
