@@ -5,6 +5,7 @@ import balance_MS
 import iTUG_MS
 import hand_tremor_MS
 import ftt_MS
+import JPS_MS
 import sound_MS
 import info_MS
 
