@@ -28,9 +28,9 @@ class MultiApp:
             app = option_menu(
                 menu_title="Momentum Web",
                 options=["Home", "Equilíbrio", "iTUG", "Tremor de mão",
-                         "Finger tapping test", "Análise da voz", "Atualizações"],
+                         "Finger tapping test", "Posição articular","Análise da voz", "Atualizações"],
                 icons=["house-fill", "arrows-fullscreen", "arrow-bar-right",
-                       "hand-index-thumb", "hand-index", "soundwave", "info-circle-fill"],
+                       "hand-index-thumb", "hand-index", "arm","soundwave", "info-circle-fill"],
                 default_index=0,
                 menu_icon='stars',
                 styles={
@@ -51,6 +51,8 @@ class MultiApp:
             hand_tremor_MS.app()
         if app == "Finger tapping test":
             ftt_MS.app()
+        if app == "Posição articular":
+            JPS_MS.app
         if app == "Análise da voz":
             sound_MS.app()
         if app == "Atualizações":
