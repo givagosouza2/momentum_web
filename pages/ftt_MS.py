@@ -92,7 +92,7 @@ def app():
     mTouch = st.checkbox('Dados do Momentum Touch',value = True)
     # Primeiro parágrafo
     texto_markdown = """
-        &nbsp;&nbsp;&nbsp;&nbsp; A avaliação da coordenação motora e mobilidade da mão realizada aqui nesta página é baseada no desempenho durante o Finger Tapping test. As informações de coordenadas espaciais e tempo de cada um dos toques são convertidas em características globais, temporais e espaciais como feito em Brito et al. (2023). Os arquivos exportados do Momentum Touch não são compatíveis com a presente rotina de análise.
+        &nbsp;&nbsp;&nbsp;&nbsp; A avaliação da coordenação motora e mobilidade da mão realizada aqui nesta página é baseada no desempenho durante o Finger Tapping test. As informações de coordenadas espaciais e tempo de cada um dos toques são convertidas em características globais, temporais e espaciais como feito em Brito et al. (2023). Indique na caixa de seleção acima se os arquivos foram foram gerados pelo Momentum Touch, caso contrário será considerado que o arquivo foi gerado pelo Momentum Sensors.
         <br>
         <br>
         <br>
