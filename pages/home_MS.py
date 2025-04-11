@@ -52,7 +52,7 @@ class MultiApp:
         if app == "Finger tapping test":
             ftt_MS.app()
         if app == "Posição articular":
-            JPS_MS.app
+            JPS_MS.app()
         if app == "Análise da voz":
             sound_MS.app()
         if app == "Atualizações":
