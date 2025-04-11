@@ -8,7 +8,7 @@ from scipy import signal
 from scipy.signal import butter, filtfilt
 import math
 
-def app:
+def app():
     def butter_lowpass_filter(data, cutoff_freq, sample_rate, order=4):
         nyquist_freq = 0.5 * sample_rate
         normal_cutoff = cutoff_freq / nyquist_freq
@@ -153,3 +153,5 @@ def app:
             # Usar st.download_button para baixar o arquivo
             st.download_button("Baixar resultados - Equilíbrio",
                                data=file_contents, key='download_results')
+
+    
