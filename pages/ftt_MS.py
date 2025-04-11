@@ -234,9 +234,6 @@ def app():
                 plt.ylim(0, y_lim)
                 plt.axis('off')
                 plt.gca().set_aspect('equal')
-                bufferftt1 = BytesIO()
-                plt.savefig(bufferftt1, format="png")
-                bufferftt1.seek(0)
                 st.pyplot(plt)
             with t2:
                 plt.figure(figsize=(5, 5))
@@ -245,9 +242,6 @@ def app():
                 plt.ylim(0, np.max(intervals)*1.25)
                 plt.xlabel('Tempo (s)')
                 plt.ylabel('Intervalo entre os toques (s)')
-                bufferftt2 = BytesIO()
-                plt.savefig(bufferftt2, format="png")
-                bufferftt2.seek(0)
                 st.pyplot(plt)
             with t3:
                 st.markdown(
