@@ -86,7 +86,8 @@ def app():
 
     st.markdown(
         '<h1 style="text-align: center; color: blue;">Finger tapping test com smartphone</h1>', unsafe_allow_html=True)
-
+    
+    mTouch = st.checkbox('Dados do Momentum Touch',value = True)
     # Primeiro parágrafo
     texto_markdown = """
         &nbsp;&nbsp;&nbsp;&nbsp; A avaliação da coordenação motora e mobilidade da mão realizada aqui nesta página é baseada no desempenho durante o Finger Tapping test. As informações de coordenadas espaciais e tempo de cada um dos toques são convertidas em características globais, temporais e espaciais como feito em Brito et al. (2023). Os arquivos exportados do Momentum Touch não são compatíveis com a presente rotina de análise.
@@ -98,67 +99,177 @@ def app():
         f"<div style='text-align: justify;'>{texto_markdown}</div>", unsafe_allow_html=True)
 
     t1, t2, t3 = st.columns([0.75, 1.75, 1])
-
-    # Create acceleration and gyroscope file upload buttons
-    uploaded_ftt = st.file_uploader(
-        "Carregue o arquivo de texto do finger tapping test", type=["txt"],)
-    if uploaded_ftt is not None:
-        custom_separator = ';'
-        df = pd.read_csv(uploaded_ftt, sep=custom_separator)
-        t = df.iloc[:, 0]/1000
-        x = df.iloc[:, 1]
-        y = df.iloc[:, 2]
-
-        dados = x, y
-
-        ellipse_x, ellipse_y, D, d, angle = ellipse_model(x, y)
-        n_touches = len(x)
-        intervals = np.diff(t)
-
-        mean_interval = np.mean(intervals)
-        max_interval = np.max(intervals)
-        min_interval = np.min(intervals)
-        std_interval = np.std(intervals)
-        ellipse_area = np.pi*D*d
-        ellipse_major_axis = D
-        ellipse_minor_axis = d
-        ellipse_rotate_angle = angle
-        total_deviation_ftt = np.sum(np.sqrt(x**2+y**2))
-
-        with t1:
-            plt.figure(figsize=(5, 5))
-            plt.plot(x, y, '+', markersize=4, markeredgecolor='k')
-            plt.plot(ellipse_x, ellipse_y, 'r')
-            plt.fill(ellipse_x, ellipse_y, 'r', alpha=0.3)
-            plt.xlim(np.min(ellipse_x), np.max(ellipse_x))
-            plt.ylim(np.min(ellipse_y), np.max(ellipse_y))
-            plt.axis('off')
-            plt.gca().set_aspect('equal')
-            st.pyplot(plt)
-        with t2:
-            plt.figure(figsize=(5, 5))
-            plt.plot(t[0:len(intervals)], intervals, 'g')
-            plt.xlabel('Tempo (s)')
-            plt.ylabel('Intervalo entre os toques (s)')
-            st.pyplot(plt)
-        with t3:
-            st.markdown(
-                '<h3 style="text-align: left; color: blue;">Resultados</h3>', unsafe_allow_html=True)
-            st.markdown("*Parâmetros globais*")
-            st.text('Número de toques = ' + str(n_touches))
-            st.markdown("*Parâmetros temporais*")
-            st.text('Intervalo médio (s) = ' + str(round(mean_interval, 3)))
-            st.text('Desvio-padrão dos intervalos (s) = ' +
-                    str(round(std_interval, 3)))
-            st.text('Intervalo máximo (s) = ' + str(round(max_interval, 2)))
-            st.text('Intervalo mínimo (s) = ' + str(round(min_interval, 2)))
-            st.markdown("*Parâmetros espaciais*")
-            st.text('Desvio total (px) = ' +
-                    str(round(total_deviation_ftt, 2)))
-            st.text('Área da elipse (px)= ' + str(round(ellipse_area, 2)))
-            st.text('Eixo maior (px) = ' +
-                    str(round(ellipse_major_axis, 2)))
-            st.text('Eixo menor (px) = ' +
-                    str(round(ellipse_minor_axis, 2)))
-            st.text('Ângulo de rotação (graus) = ' +
-                    str(round(ellipse_rotate_angle, 2)))
+    if mTouch == False:
+        # Create acceleration and gyroscope file upload buttons
+        uploaded_ftt = st.file_uploader(
+            "Carregue o arquivo de texto do finger tapping test", type=["txt"],)
+        if uploaded_ftt is not None:
+            custom_separator = ';'
+            df = pd.read_csv(uploaded_ftt, sep=custom_separator)
+            t = df.iloc[:, 0]/1000
+            x = df.iloc[:, 1]
+            y = df.iloc[:, 2]
+    
+            dados = x, y
+    
+            ellipse_x, ellipse_y, D, d, angle = ellipse_model(x, y)
+            n_touches = len(x)
+            intervals = np.diff(t)
+    
+            mean_interval = np.mean(intervals)
+            max_interval = np.max(intervals)
+            min_interval = np.min(intervals)
+            std_interval = np.std(intervals)
+            ellipse_area = np.pi*D*d
+            ellipse_major_axis = D
+            ellipse_minor_axis = d
+            ellipse_rotate_angle = angle
+            total_deviation_ftt = np.sum(np.sqrt(x**2+y**2))
+    
+            with t1:
+                plt.figure(figsize=(5, 5))
+                plt.plot(x, y, '+', markersize=4, markeredgecolor='k')
+                plt.plot(ellipse_x, ellipse_y, 'r')
+                plt.fill(ellipse_x, ellipse_y, 'r', alpha=0.3)
+                plt.xlim(np.min(ellipse_x), np.max(ellipse_x))
+                plt.ylim(np.min(ellipse_y), np.max(ellipse_y))
+                plt.axis('off')
+                plt.gca().set_aspect('equal')
+                st.pyplot(plt)
+            with t2:
+                plt.figure(figsize=(5, 5))
+                plt.plot(t[0:len(intervals)], intervals, 'g')
+                plt.xlabel('Tempo (s)')
+                plt.ylabel('Intervalo entre os toques (s)')
+                st.pyplot(plt)
+            with t3:
+                st.markdown(
+                    '<h3 style="text-align: left; color: blue;">Resultados</h3>', unsafe_allow_html=True)
+                st.markdown("*Parâmetros globais*")
+                st.text('Número de toques = ' + str(n_touches))
+                st.markdown("*Parâmetros temporais*")
+                st.text('Intervalo médio (s) = ' + str(round(mean_interval, 3)))
+                st.text('Desvio-padrão dos intervalos (s) = ' +
+                        str(round(std_interval, 3)))
+                st.text('Intervalo máximo (s) = ' + str(round(max_interval, 2)))
+                st.text('Intervalo mínimo (s) = ' + str(round(min_interval, 2)))
+                st.markdown("*Parâmetros espaciais*")
+                st.text('Desvio total (px) = ' +
+                        str(round(total_deviation_ftt, 2)))
+                st.text('Área da elipse (px)= ' + str(round(ellipse_area, 2)))
+                st.text('Eixo maior (px) = ' +
+                        str(round(ellipse_major_axis, 2)))
+                st.text('Eixo menor (px) = ' +
+                        str(round(ellipse_minor_axis, 2)))
+                st.text('Ângulo de rotação (graus) = ' +
+                        str(round(ellipse_rotate_angle, 2)))
+    else:
+        t1, t2, t3 = st.columns([1, 1.75, 1])
+        uploaded_ftt = st.file_uploader(
+            "Selecione o arquivo de texto do FFT", type=["txt"],)
+    
+        if uploaded_ftt is not None:
+            with tempfile.NamedTemporaryFile(delete=False) as temp_file:
+                temp_file.write(uploaded_ftt.read())
+                st.write("Arquivo escolhido:", temp_file.name)
+               # Define the file pathc
+            file_path = temp_file.name
+            # Create a dictionary to store the data
+            name_participant, date_participant, doctor_participant, birthdate_participant, sex_participant, contact_participant = individual_info_FTT()
+            options = ["Direita", "Esquerda"]
+            hand = st.selectbox("Mão testada:", options)
+            data = {}
+    
+            # Define a regular expression pattern to match key-value pairs
+            pattern = r'([^:]+):\s*(.+)'
+    
+            # Open the file and read its content
+            with open(file_path, "r") as file:
+                for line in file:
+                    match = re.match(pattern, line)
+                    if match:
+                        key, value = match.groups()
+                        data[key] = value
+    
+            # Print the extracted data
+    
+            x_lim = float(data['Width'])
+            y_lim = float(data['Height'])
+            skip_rows = 9
+            csv_data = pd.read_csv(file_path, skiprows=skip_rows)
+            t = csv_data.iloc[:, 0]/1000
+            intervals = np.diff(t)
+            coord_x = csv_data.iloc[:, 1]
+            coord_y = csv_data.iloc[:, 2]
+            coord_x = coord_x.astype(float)
+            coord_y = coord_y.astype(float)
+            field = csv_data.iloc[:, 3]
+            mat_x = [0, 0, x_lim, x_lim]
+            mat_y = [0, y_lim, y_lim, 0]
+    
+            dados = coord_x, coord_y
+    
+            ellipse_x, ellipse_y, D, d, angle = ellipse_model(coord_x, coord_y)
+    
+            n_touches = len(field)
+            n_errors = 0
+            for i in field:
+                if i == 0:
+                    n_errors = n_errors + 1
+            mean_interval = np.mean(intervals)
+            max_interval = np.max(intervals)
+            min_interval = np.min(intervals)
+            std_interval = np.std(intervals)
+            ellipse_area = np.pi*D*d
+            ellipse_major_axis = D
+            ellipse_minor_axis = d
+            ellipse_rotate_angle = angle
+            total_deviation_ftt = np.sum(np.sqrt(coord_x**2+coord_y**2))
+    
+            with t1:
+                plt.figure(figsize=(5, 5))
+                plt.fill(mat_x, mat_y, 'k', alpha=0.5)
+                plt.plot(coord_x, coord_y, '+', markersize=1, markeredgecolor='k')
+                plt.plot(ellipse_x, ellipse_y, 'r')
+                plt.fill(ellipse_x, ellipse_y, 'r', alpha=0.3)
+                plt.xlim(0, y_lim)
+                plt.ylim(0, y_lim)
+                plt.axis('off')
+                plt.gca().set_aspect('equal')
+                bufferftt1 = BytesIO()
+                plt.savefig(bufferftt1, format="png")
+                bufferftt1.seek(0)
+                st.pyplot(plt)
+            with t2:
+                plt.figure(figsize=(5, 5))
+                plt.plot(t[0:len(intervals)], intervals, 'g')
+                plt.xlim(0, 30)
+                plt.ylim(0, np.max(intervals)*1.25)
+                plt.xlabel('Tempo (s)')
+                plt.ylabel('Intervalo entre os toques (s)')
+                bufferftt2 = BytesIO()
+                plt.savefig(bufferftt2, format="png")
+                bufferftt2.seek(0)
+                st.pyplot(plt)
+            with t3:
+                st.markdown(
+                    '<h3 style="text-align: left; color: blue;">Resultados</h3>', unsafe_allow_html=True)
+                st.markdown("*Parâmetros globais*")
+                st.text('Número de toques = ' + str(n_touches))
+                st.text('Número de erros = ' + str(n_errors))
+                st.markdown("*Parâmetros temporais*")
+                st.text('Intervalo médio (s) = ' + str(round(mean_interval, 3)))
+                st.text('Desvio-padrão dos intervalos (s) = ' +
+                        str(round(std_interval, 3)))
+                st.text('Intervalo máximo (s) = ' + str(round(max_interval, 2)))
+                st.text('Intervalo mínimo (s) = ' + str(round(min_interval, 2)))
+                st.markdown("*Parâmetros espaciais*")
+                st.text('Desvio total (px) = ' +
+                        str(round(total_deviation_ftt, 2)))
+                st.text('Área da elipse (px)= ' + str(round(ellipse_area, 2)))
+                st.text('Eixo maior (px) = ' +
+                        str(round(ellipse_major_axis, 2)))
+                st.text('Eixo menor (px) = ' +
+                        str(round(ellipse_minor_axis, 2)))
+                st.text('Ângulo de rotação (graus) = ' +
+                        str(round(ellipse_rotate_angle, 2)))
