@@ -174,11 +174,7 @@ def app():
                 temp_file.write(uploaded_ftt.read())
                 st.write("Arquivo escolhido:", temp_file.name)
                # Define the file pathc
-            file_path = temp_file.name
-            # Create a dictionary to store the data
-            name_participant, date_participant, doctor_participant, birthdate_participant, sex_participant, contact_participant = individual_info_FTT()
-            options = ["Direita", "Esquerda"]
-            hand = st.selectbox("Mão testada:", options)
+            file_path = temp_file.name           
             data = {}
     
             # Define a regular expression pattern to match key-value pairs
