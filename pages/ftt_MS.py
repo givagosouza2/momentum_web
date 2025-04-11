@@ -166,7 +166,7 @@ def app():
     else:
         t1, t2, t3 = st.columns([1, 1.75, 1])
         uploaded_ftt = st.file_uploader(
-            "Selecione o arquivo de texto do FFT", type=["txt"],)
+            "Selecione o arquivo de texto do Momentum Touch", type=["txt"],)
     
         if uploaded_ftt is not None:
             with tempfile.NamedTemporaryFile(delete=False) as temp_file:
