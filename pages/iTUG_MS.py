@@ -7,6 +7,12 @@ from scipy.signal import butter, filtfilt
 import matplotlib.pyplot as plt
 from scipy.signal import find_peaks
 
+def create_results_content(file_name, values_dict):
+    """Create result content as a string"""
+    content = f"{file_name}\n\n"
+    content += '\n'.join(f"{key}: {value}" for key, value in values_dict.items())
+    return content
+
 
 def app():
     def butterworth_filter(data, cutoff, fs, order=4, btype='low'):
@@ -37,6 +43,8 @@ def app():
     if uploaded_acc_iTUG is not None:
         # Allocation of the acceleration data to the variables
         if uploaded_acc_iTUG is not None:
+            name_file = uploaded_acc_iTUG.name
+            name_file = name_file[:-4]
             custom_separator = ';'
             df = pd.read_csv(uploaded_acc_iTUG, sep=custom_separator)
             t = df.iloc[:, 0]
@@ -67,12 +75,13 @@ def app():
             z_ = interpf(time_)
             t, z = time_/1000, z_
 
+            # filtering acceleration data
+            x = butterworth_filter(x, 4, 100, order=2, btype='low')
+            y = butterworth_filter(y, 4, 100, order=2, btype='low')
+            z = butterworth_filter(z, 4, 100, order=2, btype='low')
+
             # Calculating acceleration data norm
             norm_waveform = np.sqrt(x**2+y**2+z**2)
-
-            # Filtering acceleration data norm
-            norm_waveform = butterworth_filter(
-                norm_waveform, 4, 100, order=2, btype='low')
 
             uploaded_gyro_iTUG = st.file_uploader(
                 "Carregue o arquivo de texto do giroscópio", type=["txt"],)
@@ -106,12 +115,13 @@ def app():
             z_gyro_ = interpf(time_gyro_)
             t_gyro, z_gyro = time_gyro_/1000, z_gyro_
 
+            # Filtering gyroscope data
+            x_gyro = butterworth_filter(x_gyro, 1.5, 100, order=2, btype='low')
+            y_gyro = butterworth_filter(y_gyro, 1.5, 100, order=2, btype='low')
+            z_gyro = butterworth_filter(z_gyro, 1.5, 100, order=2, btype='low')
+
             # Calculating norm for angular velocity
             norm_waveform_gyro = np.sqrt(x_gyro**2+y_gyro**2+z_gyro**2)
-
-            # Filtering norm for acceleration
-            norm_waveform_gyro = butterworth_filter(
-                norm_waveform_gyro, 1.5, 100, order=2, btype='low')
 
             # Creating controls to interacts with the plots
             with t1:
@@ -352,3 +362,29 @@ def app():
                         str(round(norm_waveform_gyro[slider_G1], 2)))
                 st.text('Pico de G2 (rad/s) = ' +
                         str(round(norm_waveform_gyro[slider_G2], 2)))
+
+                # Define the values to be saved
+                results_dict = {
+                    'Duração total (s) = ': str(round(total_duration, 5)),
+                    'Duração de sentar para levantar (s) ': str(round(sit_to_standing_duration, 5)),
+                    'Duração da caminhada de ida (s) ': str(round(walking_to_go_duration, 5)),
+                    'Duração da caminhada de retorno (s) ': str(round(walking_to_return_duration, 5)),
+                    'Duração de em pé para sentar (s) ': str(round(standing_to_sit_duration, 5)),
+                    'Pico de subida (g) ': str(round(norm_waveform[slider_A1], 5)),
+                    'Pico de descida (g) ': str(round(norm_waveform[slider_A2], 5)),
+                    'Pico do primeiro giro (rad/s) ': str(round(norm_waveform_gyro[slider_G1], 5)),
+                    'Pico do segundo giro (rad/s) ': str(round(norm_waveform_gyro[slider_G2], 5)),
+                    'Impulso de subida (g/s) ': str(round(norm_waveform[slider_A1]/sit_to_standing_duration, 5)),
+                    'Impulso de descida (g/s) ': str(round(norm_waveform[slider_A2]/standing_to_sit_duration, 5))
+                }
+
+                # Generate the results content
+                content = create_results_content(name_file, results_dict)
+
+                # Create download button for the text file directly
+                st.download_button(
+                    label="Download results",
+                    data=content,
+                    file_name=f"{name_file}.txt",
+                    mime="text/plain"
+                )
