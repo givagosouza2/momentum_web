@@ -1,7 +1,6 @@
 import pandas as pd
 import streamlit as st
 import numpy as np
-from scipy.integrate import cumtrapz
 import matplotlib.pyplot as plt
 import scipy
 from scipy import signal
