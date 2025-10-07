@@ -221,7 +221,10 @@ def app():
                         break
 
                 # Now, we search the peak in the acceleration norm between moment of the angular velocity peak of the pre-sitting turn and the task offset. This peak is the acceleration peak during the standing-to-sit transition.
-                sitting_peak_acc = np.max(norm_waveform[loc_g2:loc_offset])
+                if loc_g2 < loc_offset:
+                    sitting_peak_acc = np.max(norm_waveform[loc_g2:loc_offset])
+                else:
+                    sitting_peak_acc = np.max(norm_waveform[loc_g2:])
                 sitting_peak_loc = 0
                 for i in norm_waveform:
                     if i != sitting_peak_acc:
