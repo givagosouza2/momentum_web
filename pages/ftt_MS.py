@@ -106,7 +106,7 @@ def app():
         uploaded_ftt = st.file_uploader(
             "Carregue o arquivo de texto do finger tapping test", type=["txt"],)
         if uploaded_ftt is not None:
-            custom_separator = ','
+            custom_separator = ';'
             df = pd.read_csv(uploaded_ftt, sep=custom_separator)
             t = df.iloc[:, 0]/1000
             x = df.iloc[:, 1]
@@ -265,3 +265,4 @@ def app():
                         str(round(ellipse_minor_axis, 2)))
                 st.text('Ângulo de rotação (graus) = ' +
                         str(round(ellipse_rotate_angle, 2)))
+
