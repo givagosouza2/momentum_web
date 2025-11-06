@@ -108,9 +108,13 @@ def app():
         if uploaded_ftt is not None:
             custom_separator = ';'
             df = pd.read_csv(uploaded_ftt, sep=custom_separator)
+            st.text('1')
             t = df.iloc[:, 0]/1000
+            st.text('2')
             x = df.iloc[:, 1]
+            st.text('3')
             y = df.iloc[:, 2]
+            st.text('3')
     
             dados = x, y
     
@@ -265,4 +269,5 @@ def app():
                         str(round(ellipse_minor_axis, 2)))
                 st.text('Ângulo de rotação (graus) = ' +
                         str(round(ellipse_rotate_angle, 2)))
+
 
