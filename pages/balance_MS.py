@@ -195,7 +195,8 @@ def app():
 
             maxX = np.max(ellipse_fit[:, 0])
             maxY = np.max(ellipse_fit[:, 1])
-            maxValue = np.max([maxX, maxY])
+            %maxValue = np.max([maxX, maxY])
+            maxValue = 1
             if maxValue <= 0.1:
                 lim = 0.1
             elif maxValue > 0.1 and maxValue < 0.3:
@@ -292,3 +293,4 @@ def app():
                         str(round(MF_energy_ML, 2)))
                 st.text('Energia das frequências altas ML (g^2) = ' +
                         str(round(HF_energy_ML, 2)))
+
